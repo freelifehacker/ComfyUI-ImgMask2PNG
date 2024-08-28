@@ -24,9 +24,9 @@ class ImageMask2PNG:
     def tensor_to_pil(self, tensor):
         # 移除批次维度和通道维度
         if tensor.ndim == 4:
-            tensor = tensor.squeeze(0).squeeze(0)
+            tensor = tensor.squeeze(0).permute(1, 2, 0)
         elif tensor.ndim == 3:
-            tensor = tensor.squeeze(0)
+            tensor = tensor.permute(1, 2, 0)
 
         # 确保张量在 [0, 255] 范围内
         tensor = tensor.mul(255).byte()
