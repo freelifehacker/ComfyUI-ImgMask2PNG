@@ -44,9 +44,11 @@ class ImageMask2PNG:
         # 将 NumPy 数组转换为 PyTorch 张量
         tensor = torch.from_numpy(array).float().div(255)
 
-        # 添加批次维度和通道维度
-        if tensor.ndim == 3:
-            tensor = tensor.unsqueeze(0).unsqueeze(0)
+        # 调整张量形状为 (channels, height, width)
+        tensor = tensor.permute(2, 0, 1)
+
+        # 添加批次维度
+        tensor = tensor.unsqueeze(0)
 
         return tensor
 
