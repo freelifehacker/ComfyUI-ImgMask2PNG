@@ -20,10 +20,14 @@ class ImageMask2PNG:
     CATEGORY = "🌊ImageMask2PNG"
 
     def remove_background(self, mask, image):
+        # 打印图像和掩码的尺寸以进行调试
+        print(f"Image size: {image.size}")
+        print(f"Mask size: {mask.size}")
 
         # 确保图像和掩码的尺寸相同
         if image.size != mask.size:
-            raise ValueError("Image and mask must have the same dimensions")
+            print("Resizing mask to match image size")
+            mask = mask.resize(image.size, Image.ANTIALIAS)
 
         # 将掩码应用到图像上
         image = image.convert("RGBA")
@@ -32,7 +36,7 @@ class ImageMask2PNG:
         output_image.paste(image, (0, 0), mask)
 
         # 返回处理后的图像
-        return output_image
+        return (output_image,)
 
 
 NODE_CLASS_MAPPINGS = {
