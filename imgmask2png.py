@@ -27,7 +27,7 @@ class ImageMask2PNG:
         # 确保图像和掩码的尺寸相同
         if image.size != mask.size:
             print("Resizing mask to match image size")
-            mask = mask.resize(image.size, Image.ANTIALIAS)
+            mask = mask.resize(image.size, Image.LANCZOS)
 
         # 将掩码应用到图像上
         image = image.convert("RGBA")
