@@ -1,4 +1,6 @@
 from PIL import Image
+import torch
+import numpy as np
 
 
 class ImageMask2PNG:
@@ -20,6 +22,12 @@ class ImageMask2PNG:
     CATEGORY = "🌊ImageMask2PNG"
 
     def remove_background(self, mask, image):
+        # 如果输入是 torch.Tensor，则将其转换为 PIL.Image
+        if isinstance(image, torch.Tensor):
+            image = Image.fromarray(image.mul(255).byte().numpy())
+        if isinstance(mask, torch.Tensor):
+            mask = Image.fromarray(mask.mul(255).byte().numpy())
+
         # 打印图像和掩码的尺寸以进行调试
         print(f"Image size: {image.size}")
         print(f"Mask size: {mask.size}")
