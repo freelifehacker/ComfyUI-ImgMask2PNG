@@ -21,12 +21,28 @@ class ImageMask2PNG:
     FUNCTION = "remove_background"
     CATEGORY = "🌊ImageMask2PNG"
 
+    def tensor_to_pil(self, tensor):
+        # 移除批次维度和通道维度
+        if tensor.ndim == 4:
+            tensor = tensor.squeeze(0).squeeze(0)
+        elif tensor.ndim == 3:
+            tensor = tensor.squeeze(0)
+
+        # 确保张量在 [0, 255] 范围内
+        tensor = tensor.mul(255).byte()
+
+        # 将张量转换为 numpy 数组
+        array = tensor.numpy()
+
+        # 将 numpy 数组转换为 PIL 图像
+        return Image.fromarray(array)
+
     def remove_background(self, mask, image):
         # 如果输入是 torch.Tensor，则将其转换为 PIL.Image
         if isinstance(image, torch.Tensor):
-            image = Image.fromarray(image.mul(255).byte().numpy())
+            image = self.tensor_to_pil(image)
         if isinstance(mask, torch.Tensor):
-            mask = Image.fromarray(mask.mul(255).byte().numpy())
+            mask = self.tensor_to_pil(mask)
 
         # 打印图像和掩码的尺寸以进行调试
         print(f"Image size: {image.size}")
