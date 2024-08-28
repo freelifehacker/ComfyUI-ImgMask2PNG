@@ -37,6 +37,10 @@ class ImageMask2PNG:
         # 将 numpy 数组转换为 PIL 图像
         return Image.fromarray(array)
 
+    def pil_to_numpy(self, image):
+        # 将 PIL 图像转换为 NumPy 数组
+        return np.array(image)
+
     def remove_background(self, mask, image):
         # 如果输入是 torch.Tensor，则将其转换为 PIL.Image
         if isinstance(image, torch.Tensor):
@@ -59,8 +63,11 @@ class ImageMask2PNG:
         output_image = Image.new("RGBA", image.size)
         output_image.paste(image, (0, 0), mask)
 
+        # 将处理后的图像转换为 NumPy 数组
+        output_image_np = self.pil_to_numpy(output_image)
+
         # 返回处理后的图像
-        return (output_image,)
+        return (output_image_np,)
 
 
 NODE_CLASS_MAPPINGS = {
