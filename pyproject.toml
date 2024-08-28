@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-imgmask2png"
+description = "NODES:ImageMask2PNG"
+version = "1.0.0"
+license = {file = "LICENSE"}
+
+[project.urls]
+Repository = "https://github.com/freelifehacker/ComfyUI-ImgMask2PNG"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-ImgMask2PNG"
+Icon = ""
